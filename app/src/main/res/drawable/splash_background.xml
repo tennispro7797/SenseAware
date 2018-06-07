@@ -5,6 +5,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/sense_aware" />
+            android:src="@mipmap/jester_icon_white_resized" />
     </item>
 </layer-list>

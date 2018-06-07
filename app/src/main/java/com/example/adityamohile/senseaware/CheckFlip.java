@@ -44,7 +44,7 @@ public class CheckFlip extends Service implements SensorEventListener {
     private final String MY_PREFS_NAME = "SenseAware Prefs";
     private static final int MAKE_CALL_PERMISSION_REQUEST_CODE = 1;
 
-    final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//    final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
     public CheckFlip() {
     }
@@ -111,9 +111,9 @@ public class CheckFlip extends Service implements SensorEventListener {
 
         String phoneNumber = restoredNumber;
 
-        boolean isScreenOn = pm.isScreenOn();
+//        boolean isScreenOn = pm.isScreenOn();  && isScreenOn
 
-        if (!TextUtils.isEmpty(phoneNumber) && !isCallActive(getApplicationContext()) && isScreenOn) {
+        if (!TextUtils.isEmpty(phoneNumber) && !isCallActive(getApplicationContext())) {
             if (checkPermission(Manifest.permission.CALL_PHONE)) {
                 String dial = "tel:" + phoneNumber;
 
