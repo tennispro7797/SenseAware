@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.v("main","Main Activity Called!");
         decimalFormat = new DecimalFormat("#.#");
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

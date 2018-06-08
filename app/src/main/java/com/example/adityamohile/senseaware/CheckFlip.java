@@ -145,7 +145,7 @@ public class CheckFlip extends Service implements SensorEventListener {
 //                Toast.makeText(CheckFlip.this, "Permission Call Phone denied", Toast.LENGTH_SHORT).show();
             }
         } else if (!TextUtils.isEmpty(phoneNumber) && !isCallActive(getApplicationContext()) && !isScreenOn) {
-            showNotification();
+            showNotification(phoneNumber);
 //            Toast.makeText(CheckFlip.this, "Enter a phone number", Toast.LENGTH_SHORT).show();
         } else {
 
@@ -162,28 +162,30 @@ public class CheckFlip extends Service implements SensorEventListener {
         }
     }
 
-    private Intent getNotificationIntent() {
-        Intent intent = new Intent(this,MainActivity.class);
+    private Intent getNotificationIntent(String contactNumber) {
+        Intent intent = new Intent(this, CallBroadcastReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("makeCall","makeCall");
+        intent.putExtra("number",contactNumber);
         return intent;
     }
 
-    private void showNotification() {
-        Intent callIntent = getNotificationIntent();
-        callIntent.setAction("Make Call");
+    private void showNotification(String contactNumber) {
+        Intent callIntent = getNotificationIntent(contactNumber);
+        PendingIntent callPendingIntent =
+                PendingIntent.getBroadcast(this, 0, callIntent, 0);
         // Have to make sure the pending intent is processed so the call() method can be invoked
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(android.R.drawable.ic_input_get);
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        builder.setContentIntent(pendingIntent);
+        builder.setSmallIcon(R.mipmap.ic_sense_aware_foreground);
+//        Intent intent = new Intent(this, MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//        builder.setContentIntent(pendingIntent);
         builder.setContentTitle("Call Motion Registered!");
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         builder.setContentText("The call motion was just registered. Do you want to follow through with this call?");
         builder.setSubText("Tap the button to call");
-        builder.addAction(R.mipmap.ic_sense_aware_foreground,
-                "Call",PendingIntent.getActivity(this,
-                        0, callIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        builder.addAction(R.drawable.ic_launcher_foreground,
+                "Call",callPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Will display the notification in the notification bar
