@@ -172,6 +172,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else {
             contactCard.setVisibility(View.GONE);
             openFab.setVisibility(View.GONE);
+            new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                    .setTarget(findViewById(R.id.openBtnFirst))
+                    .setPrimaryText("Welcome to JestCall!")
+                    .setSecondaryText("Tap the plus to add your most called contact")
+                    .setBackgroundColour(Color.rgb(199,91,57))
+                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener()
+                    {
+                        @Override
+                        public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state)
+                        {
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                            {
+                                // User has pressed the prompt target
+                            }
+                        }
+                    })
+                    .show();
 
         }
         if (restoredPhoto != "" && restoredPhoto != null) {
@@ -193,24 +210,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startService(startCheckFlip);
 
         openDialog(contactCard);
-
-        new MaterialTapTargetPrompt.Builder(MainActivity.this)
-                .setTarget(findViewById(R.id.openBtnFirst))
-                .setPrimaryText("Welcome to SenseAware!")
-                .setSecondaryText("Tap the plus to add your most called contact")
-                .setBackgroundColour(Color.rgb(199,91,57))
-                .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener()
-                {
-                    @Override
-                    public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state)
-                    {
-                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
-                        {
-                            // User has pressed the prompt target
-                        }
-                    }
-                })
-                .show();
 
 //        pocketMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
@@ -299,27 +298,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             editor.putString("contactName", name);
             editor.putString("contactNumber", phoneNo);
             editor.putString("contactImage", encodedImage);
-            editor.apply();
-            Log.v("contactName Added","Added contact name: " + name);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    // Actions to do after 10 seconds
-                    new MaterialTapTargetPrompt.Builder(MainActivity.this)
-                            .setTarget(findViewById(R.id.deleteContact))
-                            .setPrimaryText("Remove this contact")
-                            .setSecondaryText("Tap the button to no longer use this contact")
-                            .setBackgroundColour(Color.rgb(199,91,57))
-                            .show();
 
-                    new MaterialTapTargetPrompt.Builder(MainActivity.this)
-                            .setTarget(findViewById(R.id.editContact))
-                            .setPrimaryText("Choose another contact")
-                            .setSecondaryText("Tap the button to change the contact")
-                            .setBackgroundColour(Color.rgb(199,91,57))
-                            .show();
-                }
-            }, 1200);
+            Log.v("contactName Added","Added contact name: " + name);
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            boolean showPrompt = prefs.getBoolean("showTapPrompt",true);
+            if (showPrompt) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        // Actions to do after 1 second
+                        new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                                .setTarget(findViewById(R.id.deleteContact))
+                                .setPrimaryText("Remove this contact")
+                                .setSecondaryText("Tap the button to no longer use this contact")
+                                .setBackgroundColour(Color.rgb(199,91,57))
+                                .show();
+
+                        new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                                .setTarget(findViewById(R.id.editContact))
+                                .setPrimaryText("Choose another contact")
+                                .setSecondaryText("Tap the button to change the contact")
+                                .setBackgroundColour(Color.rgb(199,91,57))
+                                .show();
+                    }
+                }, 1000);
+                editor.putBoolean("showTapPrompt",false);
+            }
+            editor.apply();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -404,6 +409,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void editContact(View v) {
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putBoolean("showTapPrompt",false);
+        editor.apply();
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
     }
@@ -420,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         editor.remove("contactName");
         editor.remove("contactNumber");
         editor.remove("contactImage");
+        editor.remove("showTapPrompt");
         editor.apply();
         Log.v("cleared","Should have deleted SharedPrefs");
         fabFirstVisible = true;
