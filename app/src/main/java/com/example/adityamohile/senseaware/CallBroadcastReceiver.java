@@ -12,7 +12,6 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        String action = intent.getStringExtra("action");
         phoneNumber = intent.getStringExtra("number");
         Log.v("broadcastReceived","Number is " + phoneNumber);
 

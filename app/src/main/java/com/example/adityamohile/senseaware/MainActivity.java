@@ -10,10 +10,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -32,44 +28,22 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
-import static android.util.Half.EPSILON;
-
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
-
-    private SensorManager mSensorManager;
-    private Sensor accelerometer;
-
-    private TextView xData;
-    private TextView yData;
-    private TextView zData;
-
-    private float deltaX = 0;
-    private float deltaY = 0;
-    private float deltaZ = 0;
-
-    private float lastX, lastY, lastZ;
+public class MainActivity extends AppCompatActivity {
 
     private CircleImageView contactPhoto;
     private TextView contactName;
@@ -94,11 +68,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private final String MY_PREFS_NAME = "SenseAware Prefs";
 
-    // Create a constant to convert nanoseconds to seconds.
-    private static final float NS2S = 1.0f / 1000000000.0f;
-    private final float[] deltaRotationVector = new float[4];
-    private float timestamp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,10 +75,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Log.v("specialActivity","Main Activity Called!");
         decimalFormat = new DecimalFormat("#.#");
-
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mContext = getApplicationContext();
         contactName = (TextView) findViewById(R.id.contactName);
         contactNumber = (TextView) findViewById(R.id.contactNumber);
@@ -210,19 +175,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startService(startCheckFlip);
 
         openDialog(contactCard);
-
-//        pocketMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if (b) {
-//                    stopService(new Intent(getApplicationContext(), CheckFlip.class));
-//                    Log.v("serviceStatus","service has been stopped");
-//                } else {
-//                    stopService(new Intent(getApplicationContext(), CheckFlip.class));
-//                    Log.v("serviceStatus","Service has been restarted");
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -386,26 +338,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
         }
         return;
-    }
-
-    @Override
-    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do something here if sensor accuracy changes.
-    }
-
-    @Override
-    public final void onSensorChanged(SensorEvent event) {
-
-        // get the change of the x,y,z values of the accelerometer
-        deltaX = Math.abs(lastX - event.values[0]);
-        deltaY = Math.abs(lastY - event.values[1]);
-        deltaZ = Math.abs(lastZ - event.values[2]);
-
-        // set the lastknow values of x,y,z
-        lastX = event.values[0];
-        lastY = event.values[1];
-        lastZ = event.values[2];
-
     }
 
     public void editContact(View v) {
