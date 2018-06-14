@@ -1,13 +1,10 @@
 package com.example.adityamohile.senseaware;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,10 +16,11 @@ public class CallActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("call","Started call activity!");
+        Log.v("specialActivity","Started call activity!");
         Intent intent = getIntent();
         String phoneNumber = intent.getStringExtra("number");
         callContact(phoneNumber);
+        finish();
     }
 
     private boolean checkPermission(String permission) {
@@ -54,7 +52,6 @@ public class CallActivity extends AppCompatActivity{
                 }
             }
 
-//            intent.addFlags(Intent.FLAG);
             startActivity(intent);
         }
     }

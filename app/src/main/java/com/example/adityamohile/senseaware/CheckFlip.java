@@ -163,8 +163,10 @@ public class CheckFlip extends Service implements SensorEventListener {
     }
 
     private Intent getNotificationIntent(String contactNumber) {
+//        Intent intent = new Intent(this,CallActivity.class);
         Intent intent = new Intent(this, CallBroadcastReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("makeCall","makeCall");
         intent.putExtra("number",contactNumber);
         return intent;
@@ -174,6 +176,9 @@ public class CheckFlip extends Service implements SensorEventListener {
         Intent callIntent = getNotificationIntent(contactNumber);
         PendingIntent callPendingIntent =
                 PendingIntent.getBroadcast(this, 0, callIntent, 0);
+//        PendingIntent.getActivity(
+//                this, 0, callIntent, PendingIntent.FLAG_UPDATE_CURRENT
+//        );
         // Have to make sure the pending intent is processed so the call() method can be invoked
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.ic_sense_aware_foreground);
@@ -190,42 +195,6 @@ public class CheckFlip extends Service implements SensorEventListener {
 
         // Will display the notification in the notification bar
         notificationManager.notify(1, builder.build());
-//        Log.v("notificationMSG","showNotifiction() called!");
-//        final String CHANNEL_ID = "SOMETHING";
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        Log.v("notificationMSG","CHECKPOINT 1");
-//
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentTitle("My notification")
-//                .setContentText("Much longer text that cannot fit one line...")
-//                .setStyle(new NotificationCompat.BigTextStyle()
-//                        .bigText("Much longer text that cannot fit one line..."))
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true);
-//        Log.v("notificationMSG","CHECKPOINT 2");
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = CHANNEL_ID;
-//            String description = "something good";
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//            // Register the channel with the system; you can't change the importance
-//            // or other notification behaviors after this
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//            Log.v("notificationMSG","CHECKPOINT 3");
-//        }
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//
-//        // notificationId is a unique int for each notification that you must define
-//        notificationManager.notify(100, mBuilder.build());
-//        Log.v("notificationMSG","showNotifiction() completed!");
     }
 
     @Override
