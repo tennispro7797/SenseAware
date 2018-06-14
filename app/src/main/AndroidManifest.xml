@@ -19,30 +19,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".CallActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
+
                 <data android:scheme="tel" />
             </intent-filter>
         </activity>
 
         <service
-            android:name="com.example.adityamohile.senseaware.CheckFlip"
+            android:name=".CheckFlip"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
+
                 <data android:scheme="tel" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".CallBroadcastReceiver"  android:exported="true">
+        <receiver
+            android:name=".CallBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
+
                 <data android:scheme="tel" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".CancelBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

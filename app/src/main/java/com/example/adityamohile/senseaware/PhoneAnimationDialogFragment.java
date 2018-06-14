@@ -40,7 +40,7 @@ public class PhoneAnimationDialogFragment extends DialogFragment {
                 rotate();
             }
         });
-        builder.setTitle("Welcome to SenseAware!").setMessage("Choose a contact and spin the phone like below to call your chosen contact!")
+        builder.setTitle("Welcome to JestCall!").setMessage("Choose a contact and spin the phone like below to call your chosen contact!")
                 .setPositiveButton("Got it!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }

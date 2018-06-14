@@ -57,8 +57,6 @@ public class CheckFlip extends Service implements SensorEventListener {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-//        throw new UnsupportedOperationException("Not yet implemented");
         return null;
     }
 
@@ -167,46 +165,41 @@ public class CheckFlip extends Service implements SensorEventListener {
     private Intent getNotificationIntent(String contactNumber) {
         Intent intent = new Intent(this, CallBroadcastReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("makeCall","callingyourmom");
         intent.putExtra("number",contactNumber);
         return intent;
     }
 
     private Intent getNotificationCancelIntent() {
-        Intent intent = new Intent(this, CallBroadcastReceiver.class);
+        Intent intent = new Intent(this, CancelBroadcastReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("makeCall","cancel");
         return intent;
     }
 
     private void showNotification(String contactNumber) {
         Intent callIntent = getNotificationIntent(contactNumber);
         Intent cancelIntent = getNotificationCancelIntent();
-        Log.v("intentType",callIntent.getStringExtra("makeCall"));
-        Log.v("intentType",cancelIntent.getStringExtra("makeCall"));
+
         PendingIntent callPendingIntent =
                 PendingIntent.getBroadcast(this, 0, callIntent, 0);
         PendingIntent cancelPendingIntent =
                 PendingIntent.getBroadcast(this,0,cancelIntent, 0);
         createNotificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID);
-        builder.setSmallIcon(R.mipmap.ic_sense_aware_foreground);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        builder.setSmallIcon(R.drawable.ic_call);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_jester_icon));
         builder.setContentTitle("Call Motion Made");
         builder.setContentText("Do you want to make this call?");
         builder.setSubText("Tap the button below to call");
         builder.setVisibility(VISIBILITY_PUBLIC);
         builder.setVibrate(new long[] { 1000, 1000});
         builder.setAutoCancel(true);
-        builder.addAction(R.mipmap.ic_launcher,
+        builder.addAction(R.drawable.ic_call,
                 "Call",callPendingIntent);
-//        builder.addAction(R.mipmap.ic_launcher,
-//                "Cancel", cancelPendingIntent);
+        builder.addAction(R.drawable.ic_cancel,
+                "Cancel", cancelPendingIntent);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        // Will display the notification in the notification bar
-//        notificationManager.notify(1, builder.build());
         notificationManagerCompat.notify(1,builder.build());
     }
 

@@ -80,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
         contactNumber = (TextView) findViewById(R.id.contactNumber);
         contactPhoto = (CircleImageView) findViewById(R.id.contactPhoto);
 
-//        phoneIcon = findViewById(R.id.phoneIcon);
-//        phoneIcon.setVisibility(View.GONE);
-//        supportText = findViewById(R.id.supportText);
-//        supportText.setVisibility(View.GONE);
-
         openFab = findViewById(R.id.openBtn);
         openFab.setColorFilter(Color.BLACK);
 
@@ -326,13 +321,11 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode) {
             case MAKE_CALL_PERMISSION_REQUEST_CODE :
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                    callBtn.setEnabled(true);
                     Toast.makeText(this, "JestCall can now make calls", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case 2:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                    callBtn.setEnabled(true);
                     Toast.makeText(this, "JestCall can now access contacts", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -403,12 +396,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         phoneIcon.startAnimation(antiRotate);
-    }
-
-    public void showHelpInfo(View v) {
-        supportText.setVisibility(View.VISIBLE);
-        phoneIcon.setVisibility(View.VISIBLE);
-        rotate();
     }
 
     public void openDialog(View v) {
