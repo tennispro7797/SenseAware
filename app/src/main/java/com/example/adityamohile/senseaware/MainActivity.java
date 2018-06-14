@@ -327,13 +327,13 @@ public class MainActivity extends AppCompatActivity {
             case MAKE_CALL_PERMISSION_REQUEST_CODE :
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
 //                    callBtn.setEnabled(true);
-                    Toast.makeText(this, "SenseAware can now make calls", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "JestCall can now make calls", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case 2:
                 if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
 //                    callBtn.setEnabled(true);
-                    Toast.makeText(this, "You can read contacts by clicking on the FAB", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "JestCall can now access contacts", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

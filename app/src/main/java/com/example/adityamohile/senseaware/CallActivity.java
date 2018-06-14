@@ -1,6 +1,7 @@
 package com.example.adityamohile.senseaware;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -28,6 +29,8 @@ public class CallActivity extends AppCompatActivity{
     }
 
     public void callContact(String phoneNumber) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(1);
         if (checkPermission(Manifest.permission.CALL_PHONE)) {
             String dial = "tel:" + phoneNumber;
 
