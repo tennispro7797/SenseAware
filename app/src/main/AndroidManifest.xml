@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/jestcall_launcher"
+        android:icon="@mipmap/ic_jester_launcher"
         android:label="JestCall"
-        android:roundIcon="@mipmap/jestcall_launcher"
+        android:roundIcon="@mipmap/ic_jester_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
         <activity android:name=".MainActivity">
