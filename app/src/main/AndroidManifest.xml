@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.adityamohile.senseaware">
+    package="com.adityamohile.jestcall.app">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -12,14 +12,14 @@
         android:roundIcon="@mipmap/ic_jester_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.adityamohile.jestcall.app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CallActivity">
+        <activity android:name="com.adityamohile.jestcall.app.CallActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
 
@@ -28,7 +28,7 @@
         </activity>
 
         <service
-            android:name=".CheckFlip"
+            android:name="com.adityamohile.jestcall.app.CheckFlip"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -39,7 +39,7 @@
         </service>
 
         <receiver
-            android:name=".CallBroadcastReceiver"
+            android:name="com.adityamohile.jestcall.app.CallBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.CALL_PRIVILEGED" />
@@ -48,7 +48,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".CancelBroadcastReceiver"
+            android:name="com.adityamohile.jestcall.app.CancelBroadcastReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

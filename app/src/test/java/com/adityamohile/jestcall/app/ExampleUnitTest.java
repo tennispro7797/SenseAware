@@ -1,4 +1,4 @@
-package com.example.adityamohile.senseaware;
+package com.adityamohile.jestcall.app;
 
 import org.junit.Test;
 

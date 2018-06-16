@@ -1,4 +1,4 @@
-package com.example.adityamohile.senseaware;
+package com.adityamohile.jestcall.app;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

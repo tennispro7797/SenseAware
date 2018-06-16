@@ -1,4 +1,4 @@
-package com.example.adityamohile.senseaware;
+package com.adityamohile.jestcall.app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
